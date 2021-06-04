@@ -8,25 +8,25 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @Column
+    @Column(nullable = false)
     private String nome;
 
-    @Column
-    private String CPF;
+    @Column(nullable = false)
+    private String cpf;
 
-    @Column
+    @Column(nullable = false)
     private String fone;
 
-    @Column
-    private Integer ContaCorrenteId;
+    @Column(nullable = false)
+    private int contaCorrenteId;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -39,11 +39,11 @@ public class Cliente {
     }
 
     public String getCPF() {
-        return CPF;
+        return cpf;
     }
 
     public void setCPF(String CPF) {
-        this.CPF = CPF;
+        this.cpf = CPF;
     }
 
     public String getFone() {
@@ -54,11 +54,11 @@ public class Cliente {
         this.fone = fone;
     }
 
-    public Integer getContaCorrenteId() {
-        return ContaCorrenteId;
+    public int getContaCorrenteId() {
+        return contaCorrenteId;
     }
 
-    public void setContaCorrenteId(Integer contaCorrenteId) {
-        ContaCorrenteId = contaCorrenteId;
+    public void setContaCorrenteId(int contaCorrenteId) {
+        this.contaCorrenteId = contaCorrenteId;
     }
 }
