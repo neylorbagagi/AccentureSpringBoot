@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,7 @@ public class Account {
     private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo number não pode ser nulo")
     private int number;
 
     @Column(nullable = false)

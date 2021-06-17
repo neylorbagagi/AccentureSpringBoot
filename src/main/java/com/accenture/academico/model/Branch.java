@@ -3,6 +3,7 @@ package com.accenture.academico.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -13,12 +14,15 @@ public class Branch {
     private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo name não pode ser nulo")
     private String name;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo address não pode ser nulo")
     private String address;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo fone não pode ser nulo")
     private String fone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "branch")

@@ -1,23 +1,30 @@
 package com.accenture.academico.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-public class Client {
+public class Client{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo name não pode ser nulo")
     private String name;
 
     @Column(nullable = false)
+    @Size(max = 14, message = "Campo cpf deve conter no máximo 14 characteres")
+    @NotBlank(message = "Campo cpf não pode ser nulo")
+    @CPF(message = "Campo cpf inválido")
     private String cpf;
 
     @Column(nullable = false)
+    @NotBlank(message = "Campo fone não pode ser nulo")
     private String fone;
 
     @OneToOne(mappedBy = "client")
@@ -25,8 +32,7 @@ public class Client {
     @JsonBackReference
     private Account account;
 
-    public Client() {
-    }
+    public Client() {}
 
     public Client(String name, String cpf, String fone, Account account) {
         this.name = name;

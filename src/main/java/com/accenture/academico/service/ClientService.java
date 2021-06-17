@@ -28,7 +28,8 @@ public class ClientService {
         return repository.save(client);
     }
 
-    public void delete(int id) {
+    public int delete(int id) {
         repository.deleteById(id);
+        return id;
     }
 }
