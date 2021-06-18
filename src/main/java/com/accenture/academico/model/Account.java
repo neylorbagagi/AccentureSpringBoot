@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -14,9 +14,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Campo number não pode ser nulo")
-    private int number;
+    @Column(nullable = false,unique = true)
+    @NotNull(message = "Campo number não pode ser nulo")
+    private String number;
 
     @Column(nullable = false)
     private double balance;
@@ -24,6 +24,7 @@ public class Account {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true, nullable = false)
     @JsonManagedReference
+    @NotNull(message = "Campo objeto client não pode ser nulo")
     private Client client;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
@@ -33,18 +34,28 @@ public class Account {
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
     @JsonBackReference
+    @NotNull(message = "Campo branch {id} não pode ser nulo")
     private Branch branch;
 
     public Account() {
     }
 
-    public Account(int number, double balance, Client client, List<Statement> statements, Branch branch) {
+    public Account(String number, double balance, Client client, List<Statement> statements, Branch branch) {
         this.number = number;
         this.balance = 0.0;
         this.client = client;
         this.statements = statements;
         this.branch = branch;
     }
+
+    public void deposit(double value) {
+        this.balance += value;
+    }
+
+    public void withdraw(double value) {
+        this.balance -= value;
+    }
+
 
     public int getId() {
         return id;
@@ -54,11 +65,11 @@ public class Account {
         this.id = id;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -14,22 +15,23 @@ public class Statement {
     private int id;
 
     @Column(nullable = false)
-    @NotBlank(message = "Campo value não pode ser nulo")
+    @NotNull(message = "Campo value não pode ser nulo")
     private double value;
 
     @Column(nullable = false)
-    @NotBlank(message = "Campo date não pode ser nulo")
+    @NotNull(message = "Campo date não pode ser nulo")
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Campo operation não pode ser nulo")
+    @NotNull(message = "Campo operation não pode ser nulo")
     private StatementOperation operation;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     @JsonBackReference
+    @NotNull(message = "Campo account {id} não pode ser nulo")
     private Account account;
 
     public Statement() {

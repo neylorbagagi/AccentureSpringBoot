@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class StatementController {
     }
     
     @PostMapping("/statement")
-    public Statement saveStatement(@RequestBody Statement statement, HttpServletResponse response){
+    public Statement saveStatement(@Valid @RequestBody Statement statement, HttpServletResponse response){
         response.setStatus(HttpServletResponse.SC_CREATED);
         return service.saveOrUpdateStatement(statement);
     }

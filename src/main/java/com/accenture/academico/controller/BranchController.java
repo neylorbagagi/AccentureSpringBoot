@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,7 @@ public class BranchController {
     }
     
     @PostMapping("/branch")
-    public Branch saveBranch(@RequestBody Branch branch, HttpServletResponse response){
+    public Branch saveBranch(@Valid @RequestBody Branch branch, HttpServletResponse response){
         response.setStatus(HttpServletResponse.SC_CREATED);
         return service.saveOrUpdateBranch(branch);
     }
