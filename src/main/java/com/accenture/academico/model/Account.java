@@ -31,10 +31,10 @@ public class Account {
     @JsonManagedReference
     private List<Statement> statements;
 
+    //@NotNull(message = "Campo branch {id} não pode ser nulo")
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", nullable = false)
     @JsonBackReference
-    @NotNull(message = "Campo branch {id} não pode ser nulo")
     private Branch branch;
 
     public Account() {

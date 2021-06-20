@@ -44,7 +44,7 @@ public class AccountService {
         Account account = this.getAccountById(id);
         account.deposit(value);
 
-        Statement statement = new Statement(value,new Date(), StatementOperation.DEPOSIT,account);
+        Statement statement = new Statement(value,StatementOperation.DEPOSIT,account);
         statementRepository.save(statement);
 
         return this.saveOrUpdateAccount(account);
@@ -54,7 +54,7 @@ public class AccountService {
         Account account = this.getAccountById(id);
         account.withdraw(value);
 
-        Statement statement = new Statement(value,new Date(), StatementOperation.WITHDRAWAL,account);
+        Statement statement = new Statement(value,StatementOperation.WITHDRAWAL,account);
         statementRepository.save(statement);
 
         return this.saveOrUpdateAccount(account);
@@ -69,8 +69,8 @@ public class AccountService {
 
         Date transactionDate = new Date();
         //Statement withdrawStatement = new Statement(value,transactionDate, StatementOperation.WITHDRAWAL,originAccount);
-        Statement transferStatement = new Statement(-value,transactionDate, StatementOperation.TRANSFER,originAccount);
-        Statement depositStatement = new Statement(value,transactionDate, StatementOperation.DEPOSIT,destinyAccount);
+        Statement transferStatement = new Statement(-value,StatementOperation.TRANSFER,originAccount);
+        Statement depositStatement = new Statement(value,StatementOperation.DEPOSIT,destinyAccount);
 
         //statementRepository.save(withdrawStatement);
         statementRepository.save(transferStatement);

@@ -20,7 +20,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,27 +38,70 @@ public class AccountControllerTest {
     @MockBean
     private AccountService accountService;
 
+    private Account mockAccount;
+    private ArrayList<Account> mockAccounts;
+    private String exampleAccountJson;
+    private String exampleListAccountJson;
 
-    Account mockClientAccount = new Account(){{ setId(1);}};
-    Client mockClient = new Client("Gabriela","35906773843","15-981-169-124",mockClientAccount);
+    public AccountControllerTest() {
 
-    List<Account> accounts = new ArrayList<>();
-    Branch mockBranch = new Branch(){{ setId(1);}}; //new Branch("Paulista","Av Paulista 1000","115551020",accounts);
+        Account mockClientAccount = new Account(){{ setId(1);}};
+        Client mockClient = new Client("Gabriela","35906773843","15-981-169-124",mockClientAccount);
 
-    List<Statement> statements = new ArrayList<>();
-    Account mockAccount = new Account("0001",0.0,mockClient,statements,mockBranch);
-    List<Account> mockAccounts = new ArrayList<Account>(){{
-        add(mockAccount);
-    }};
+        Branch mockBranch = new Branch("Paulista","Av Paulista 1000","115551020",new ArrayList<>());
+        mockBranch.setId(1);
+        //this.mockAccount = new Account(){{ setId(1);}};
+        this.mockAccount = new Account("0001",0,mockClient,new ArrayList<Statement>(),mockBranch);
+
+        this.mockAccounts = new ArrayList<Account>(){{
+            add(mockAccount);
+        }};
+
+        this.exampleAccountJson = "{\"number\": \"0001\",\"client\":{\"name\": \"Gabriela\",\"cpf\": \"35906773843\",\"fone\":\"15-981-169-124\"},\"statements\":[]}";
+        this.exampleListAccountJson = "["+this.exampleAccountJson+"]";
+
+    }
 
 
-
-    String exampleAccountJson = "{\"number\": \"0001\",\"client\":{\"name\": \"Gabriela From Account\",\"cpf\": \"35906773843\",\"fone\":\"15-981-169-124\"},\"branch\":{\"id\":\"1\"}}";
-
-
+//
+//    Account mockClientAccount = new Account(){{ setId(1);}};
+//    Client mockClient = new Client("Gabriela","35906773843","15-981-169-124",mockClientAccount);
+//
+//    List<Account> accounts = new ArrayList<>();
+//    Branch mockBranch = new Branch(){{ setId(1);}}; //new Branch("Paulista","Av Paulista 1000","115551020",accounts);
+//
+//    List<Statement> statements = new ArrayList<>();
+//    Account mockAccount = new Account("0001",0.0,mockClient,statements,mockBranch);
+//    List<Account> mockAccounts = new ArrayList<Account>(){{
+//        add(mockAccount);
+//    }};
+//
+//
+//
+//    String exampleAccountJson = "{\"number\": \"0001\",\"client\":{\"name\": \"Gabriela From Account\",\"cpf\": \"35906773843\",\"fone\":\"15-981-169-124\"},\"branch\":{\"id\":\"1\"}}";
+//
+//    public void setUp(){
+//
+//        Account mockClientAccount = new Account(){{ setId(1);}};
+//        Client mockClient = new Client("Gabriela","35906773843","15-981-169-124",mockClientAccount);
+//
+//        Branch mockBranch = new Branch("Paulista","Av Paulista 1000","115551020",new ArrayList<>());
+//
+//        //this.mockAccount = new Account(){{ setId(1);}};
+//        this.mockAccount = new Account("0001",0,mockClient,new ArrayList<Statement>(),mockBranch);
+//
+//        this.mockAccounts = new ArrayList<Account>(){{
+//            add(mockAccount);
+//        }};
+//
+//        this.exampleAccountJson = "{\"number\": \"0001\",\"client\":{\"name\": \"Gabriela From Account\",\"cpf\": \"35906773843\",\"fone\":\"15-981-169-124\"},\"branch\":{\"id\":\"1\"}}";
+//        this.exampleListAccountJson = "["+this.exampleAccountJson+"]";
+//
+//    }
 
     @Test
     public void getAllAccountTest() throws Exception{
+
 
         Mockito.when(this.accountService.getAllAccounts()).thenReturn(mockAccounts);
 
@@ -68,9 +113,7 @@ public class AccountControllerTest {
 
         System.out.println(result.getResponse());
 
-        String expected = "[{\"number\": \"0001\",\"client\":{\"name\": \"Gabriela From Account\",\"cpf\": \"35906773843\",\"fone\":\"15-981-169-124\"},\"branch\":{\"id\":\"1\"}}]";
-
-        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+        JSONAssert.assertEquals(this.exampleListAccountJson, result.getResponse().getContentAsString(), false);
 
     }
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,11 +26,13 @@ public class StatementService {
     }
 
     public Statement saveOrUpdateStatement(Statement statement){
+        statement.setDate(new Date());
         return repository.save(statement);
     }
 
-    public void delete(int id) {
+    public int delete(int id) {
         repository.deleteById(id);
+        return id;
     }
     
 }
